@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { sendMessage } from '../../services/chatService';
 
 const QueryMode = ({ onPropertiesFound }) => {
     const [query, setQuery] = useState('');
     const [messages, setMessages] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const messagesEndRef = useRef(null);
+    const chatMessagesRef = useRef(null);
 
     // Add welcome message on component mount
     useEffect(() => {
@@ -15,12 +17,43 @@ const QueryMode = ({ onPropertiesFound }) => {
         setMessages([welcomeMessage]);
     }, []);
 
+    // Auto-scroll to bottom when new messages are added
+    const scrollToBottom = () => {
+        requestAnimationFrame(() => {
+            if (chatMessagesRef.current) {
+                const element = chatMessagesRef.current;
+                element.scrollTop = element.scrollHeight;
+            }
+            // Fallback to scrollIntoView
+            if (messagesEndRef.current) {
+                messagesEndRef.current.scrollIntoView({ 
+                    behavior: "smooth", 
+                    block: "nearest" 
+                });
+            }
+        });
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages, isLoading]);
+
+    // Also scroll immediately after layout changes
+    useLayoutEffect(() => {
+        if (messages.length > 0) {
+            scrollToBottom();
+        }
+    }, [messages]);
+
     const handleSendQuery = async () => {
         if (!query.trim()) return;
 
         const userMessage = { type: 'user', content: query };
         setMessages(prev => [...prev, userMessage]);
         setIsLoading(true);
+
+        // Scroll after adding user message
+        setTimeout(() => scrollToBottom(), 50);
 
         try {
             // Send query to LlamaIndex backend
@@ -39,6 +72,9 @@ const QueryMode = ({ onPropertiesFound }) => {
             
             setMessages(prev => [...prev, botMessage]);
             
+            // Scroll after adding bot message
+            setTimeout(() => scrollToBottom(), 100);
+            
             // If properties were found, notify parent component to display them
             if (response.properties && response.properties.length > 0 && onPropertiesFound) {
                 onPropertiesFound(response.properties, query);
@@ -51,6 +87,9 @@ const QueryMode = ({ onPropertiesFound }) => {
                 content: `❌ Sorry, I encountered an error processing your request. Please make sure the backend server is running and try again.\n\nError: ${error.message}` 
             };
             setMessages(prev => [...prev, errorMessage]);
+            
+            // Scroll after adding error message
+            setTimeout(() => scrollToBottom(), 100);
         } finally {
             setIsLoading(false);
         }
@@ -60,7 +99,7 @@ const QueryMode = ({ onPropertiesFound }) => {
 
     return (
         <div className="query-mode">
-            <div className="chat-messages">
+            <div className="chat-messages" ref={chatMessagesRef}>
                 {messages.map((msg, index) => (
                     <div key={index} className={`message ${msg.type}`}>
                         <div className="message-content">
@@ -89,6 +128,8 @@ const QueryMode = ({ onPropertiesFound }) => {
                         </div>
                     </div>
                 )}
+                {/* Invisible element to scroll to */}
+                <div ref={messagesEndRef} />
             </div>
             <div className="chat-input">
                 <input

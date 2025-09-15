@@ -80,3 +80,239 @@
     gap: 16px;
     margin-top: 20px;
 }
+
+/* Address Details Mode Styles */
+.address-mode {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    max-height: 100%;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}
+
+/* Custom scrollbar for address mode */
+.address-mode::-webkit-scrollbar {
+    width: 8px;
+}
+
+.address-mode::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.address-mode::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.address-mode::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+.address-input-section {
+    margin-bottom: 24px;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.address-input-section h3 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    color: #333;
+    font-size: 1.2em;
+}
+
+.address-input {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.address-input input {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+.address-input input:focus {
+    outline: none;
+    border-color: #4a90e2;
+}
+
+.address-input button {
+    padding: 12px 24px;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.address-input button:hover:not(:disabled) {
+    background-color: #357ab8;
+}
+
+.address-input button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #4a90e2;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 16px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.error-message {
+    background: #fff5f5;
+    border: 1px solid #fed7d7;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.error-message h4 {
+    color: #c53030;
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+.error-message p {
+    color: #e53e3e;
+    margin: 0;
+}
+
+.property-details {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+    max-height: 500px;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}
+
+/* Custom scrollbar for property details */
+.property-details::-webkit-scrollbar {
+    width: 8px;
+}
+
+.property-details::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.property-details::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.property-details::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+.property-details h4 {
+    margin-top: 0;
+    margin-bottom: 24px;
+    color: #333;
+    font-size: 1.5em;
+    border-bottom: 2px solid #4a90e2;
+    padding-bottom: 8px;
+}
+
+.property-details h5 {
+    margin-top: 24px;
+    margin-bottom: 12px;
+    color: #4a90e2;
+    font-size: 1.2em;
+}
+
+.property-details h5:first-of-type {
+    margin-top: 0;
+}
+
+.address-section,
+.property-section,
+.financial-section,
+.risk-section,
+.investment-section {
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #4a90e2;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.address-section:hover,
+.property-section:hover,
+.financial-section:hover,
+.risk-section:hover,
+.investment-section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.detail-item {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    padding: 4px 0;
+}
+
+.detail-item strong {
+    min-width: 160px;
+    color: #555;
+    font-weight: 600;
+}
+
+.risk-level {
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.85em;
+    margin-left: 8px;
+}
+
+.risk-level.low {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.risk-level.medium {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.risk-level.high {
+    background-color: #f8d7da;
+    color: #721c24;
+}

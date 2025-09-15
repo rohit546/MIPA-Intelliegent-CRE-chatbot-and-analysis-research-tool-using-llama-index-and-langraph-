@@ -122,11 +122,7 @@ const ChatPage = () => {
                       {currentProperties.map((property, index) => (
                         <PropertyCard 
                           key={property.id || index}
-                          property={{
-                            ...property,
-                            price: property.asking_price,
-                            address: property.address || { fullAddress: 'Address not available' }
-                          }}
+                          property={property}
                           index={index}
                         />
                       ))}

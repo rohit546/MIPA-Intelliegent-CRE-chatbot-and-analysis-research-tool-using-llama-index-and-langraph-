@@ -1,11 +1,13 @@
+export const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8003';
+
 export const CHATBOT_MODES = {
     QUERY: 'query',
     ADDRESS_DETAILS: 'address_details',
 };
 
 export const API_ENDPOINTS = {
-    FETCH_PROPERTIES: '/api/properties',
-    FETCH_ADDRESS_DETAILS: '/api/address-details',
+    FETCH_PROPERTIES: '/properties',
+    FETCH_ADDRESS_DETAILS: '/chat',
 };
 
 export const DEFAULT_PROPERTY_IMAGE = 'https://via.placeholder.com/150';

@@ -12,7 +12,7 @@ interface Property {
   id: number;
   name?: string;
   property_type?: string;
-  price?: number;
+  asking_price?: number;
   size_acres?: number;
   address?: {
     fullAddress?: string;

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8002';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8003';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -28,7 +28,7 @@ export const fetchProperties = async (filters = {}) => {
       params.append('max_price', filters.max_price);
     }
     
-    const response = await api.get(`/api/properties?${params.toString()}`);
+    const response = await api.get(`/properties?${params.toString()}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching properties:', error);
@@ -58,7 +58,7 @@ export const submitQuery = async (query) => {
 
 export const fetchAddressDetails = async (address) => {
     try {
-        const response = await axios.post(`${API_BASE_URL}/chat/address`, { address });
+        const response = await axios.post(`${API_BASE_URL}/chat`, { message: `Tell me about this address: ${address}` });
         return response.data;
     } catch (error) {
         console.error('Error fetching address details:', error);

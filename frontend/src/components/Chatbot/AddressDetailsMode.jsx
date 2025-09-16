@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const AddressDetailsMode = () => {
+const AddressDetailsMode = ({ onStartAnalysis }) => {
     const [address, setAddress] = useState('');
     const [propertyDetails, setPropertyDetails] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -52,6 +52,15 @@ const AddressDetailsMode = () => {
                     <button onClick={handleFetchDetails} disabled={!address.trim()}>
                         Get Details
                     </button>
+                    {propertyDetails && (
+                        <button 
+                            onClick={() => onStartAnalysis && onStartAnalysis(address, propertyDetails)} 
+                            className="scoring-button"
+                            style={{ marginLeft: '10px', background: '#10b981', color: 'white' }}
+                        >
+                            🤖 Start AI Analysis
+                        </button>
+                    )}
                 </div>
             </div>
 
@@ -408,6 +417,7 @@ const AddressDetailsMode = () => {
                     )}
                 </div>
             )}
+
         </div>
     );
 };

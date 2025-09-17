@@ -46,6 +46,12 @@ venv.bak/
 conversations.json
 query_learning.db
 
+# Generated files
+backend/conversations.json
+backend/__pycache__/
+backend/app/__pycache__/
+backend/services/__pycache__/
+
 # Node.js
 node_modules/
 npm-debug.log*

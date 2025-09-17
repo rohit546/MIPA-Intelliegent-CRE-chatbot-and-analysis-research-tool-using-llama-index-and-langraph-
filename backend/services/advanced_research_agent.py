@@ -17,7 +17,7 @@ class AdvancedResearchAgent:
     
     def __init__(self, openai_api_key: str):
         self.client = openai.OpenAI(api_key=openai_api_key)
-        self.model = "gpt-4-1106-preview"
+        self.model = "gpt-4o"
         
     async def research_missing_data(self, property_address: str, smarty_data: Dict, missing_data: List[str]) -> Dict[str, Any]:
         """Research missing data points using various sources"""
@@ -64,19 +64,21 @@ class AdvancedResearchAgent:
         coordinates = f"{smarty_data.get('location_info', {}).get('latitude', '')},{smarty_data.get('location_info', {}).get('longitude', '')}"
         
         research_prompt = f"""
-        Research traffic data for this location:
+        Research traffic data for ONLY this specific location:
         Address: {address}
-        County: {county}
-        Coordinates: {coordinates}
+        City: {smarty_data.get('city', 'Unknown')}, GA
+        County: {smarty_data.get('county', 'Unknown')} County
         
-        Based on the location (Flint River Road in Jonesboro, GA), estimate daily traffic count.
+        CRITICAL: Analyze ONLY {address}. Do NOT mention other roads, locations, or addresses.
+        
+        Based on the specific characteristics of {address}, estimate daily traffic count:
         Consider:
-        - This is a major road in suburban Atlanta area
-        - Jonesboro is a growing suburb
-        - Flint River Road appears to be a collector road
+        - Road type and classification for this specific address
+        - Local area characteristics around {address}
+        - Regional traffic patterns for this county/city
         
-        Provide realistic estimate with reasoning:
-        Format: "Estimated X,XXX vehicles/day - [reasoning]"
+        Provide realistic estimate for {address} ONLY:
+        Format: "Estimated X,XXX vehicles/day for {address} - [reasoning based on this specific location]"
         """
         
         try:
@@ -89,20 +91,41 @@ class AdvancedResearchAgent:
     async def _research_competition(self, address: str, smarty_data: Dict) -> Optional[str]:
         """Research nearby competition using AI analysis"""
         
-        county = smarty_data.get('location_info', {}).get('county', 'Clayton')
+        county = smarty_data.get('county', 'Unknown')
+        city = smarty_data.get('city', 'Unknown')
+        property_type = smarty_data.get('property_info', {}).get('property_type', 'commercial property')
         
+        # Define competition types based on property type
+        competition_map = {
+            'auto_repair_garage': 'auto repair shops',
+            'car_wash_automated': 'car washes',
+            'convenience_store': 'gas stations and convenience stores',
+            'gas_station': 'gas stations',
+            'restaurant': 'restaurants',
+            'retail': 'retail stores'
+        }
+        
+        # Always focus on gas station competition for feasibility analysis
         research_prompt = f"""
-        Research gas station competition for:
+        Research GAS STATION competition for potential fuel retail development at:
         Address: {address}
-        County: {county} County, Georgia
+        City: {city}, GA
+        County: {county} County
+        Current Property Type: {property_type}
         
-        Based on this being in Clayton County (suburban Atlanta), estimate competition:
-        - This is a suburban area with moderate density
-        - Likely has several gas stations along major roads
-        - Convenience stores are common in this area
+        FOCUS: Analyze existing gas stations within 1-3 mile radius for fuel retail feasibility.
+        
+        Do NOT mention other locations or counties. Focus ONLY on the exact address provided.
+        
+        Consider:
+        - Major brand stations (Chevron, Marathon, BP, Shell, etc.)
+        - Independent fuel retailers
+        - Convenience stores with fuel
+        - Market saturation level
+        - Competitive gaps or opportunities
         
         Provide realistic estimate:
-        Format: "Estimated X-X gas stations within 1 mile - [reasoning]"
+        Format: "Estimated X-X gas stations within 1-3 miles - [market analysis and competitive positioning]"
         """
         
         try:
@@ -110,7 +133,7 @@ class AdvancedResearchAgent:
             return response
         except Exception as e:
             logger.error(f"Error researching competition: {e}")
-            return "Estimated 2-4 gas stations within 1 mile - Typical suburban density"
+            return f"Estimated 2-4 {competition_type} within 1 mile - Typical suburban density"
     
     async def _research_demographics(self, address: str, smarty_data: Dict) -> Optional[str]:
         """Research demographic data using census tract info"""

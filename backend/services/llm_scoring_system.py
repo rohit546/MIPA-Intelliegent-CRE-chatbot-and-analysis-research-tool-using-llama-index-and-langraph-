@@ -67,7 +67,7 @@ class LLMScoringSystem:
     
     def __init__(self, openai_api_key: str):
         self.client = openai.OpenAI(api_key=openai_api_key)
-        self.model = "gpt-4-1106-preview"  # Can be upgraded to GPT-5 when available
+        self.model = "gpt-4o"  # Latest and most advanced GPT model
         
         # IMST scoring weights
         self.weights = {

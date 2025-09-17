@@ -340,10 +340,10 @@ Ready for final analysis!`);
         {/* Right Panel - Chat */}
         <div className="flex-1 flex flex-col bg-white">
           {/* Messages Area */}
-          <div className="flex-1 overflow-y-auto p-6 space-y-4">
+          <div className="flex-1 overflow-y-auto p-6 space-y-4 w-full">
             {messages.map((message) => (
               <div key={message.id} className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`flex items-start space-x-3 max-w-2xl ${message.type === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
+                <div className={`flex items-start space-x-3 max-w-full w-full ${message.type === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
                     message.type === 'bot' ? 'bg-gray-900' :
                     message.type === 'system' ? 'bg-gray-600' : 'bg-gray-700'
@@ -362,7 +362,7 @@ Ready for final analysis!`);
                       <span className="text-xs text-gray-500">{message.timestamp}</span>
                     </div>
                     
-                    <div className={`rounded-lg px-4 py-3 max-w-md border ${
+                    <div className={`rounded-lg px-4 py-3 w-full border ${
                       message.type === 'bot' ? 'bg-gray-100 text-gray-900 border-gray-200' :
                       message.type === 'system' ? 'bg-gray-50 text-gray-800 border-gray-300' :
                       'bg-gray-900 text-white border-gray-700'
@@ -372,7 +372,7 @@ Ready for final analysis!`);
                           {message.content}
                         </pre>
                       ) : (
-                        <p className="text-sm leading-relaxed">{message.content}</p>
+                        <pre className="text-sm leading-relaxed whitespace-pre-wrap font-mono overflow-x-auto">{message.content}</pre>
                       )}
                     </div>
                   </div>
